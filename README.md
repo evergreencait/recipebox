@@ -6,17 +6,11 @@
     * input: {"Mexican"}, {"Mexican"}
     * output: true
 
-### The get all method will return the category if the category was saved in the database.
-    * input: {"Mexican"}
-    * output: "Mexican"
 
 ### The save method will assign a new id to an new instance of the category class.
     * input: {"Mexican", 0}
     * output: {"Mexican", non zero}
 
-### The get all method will return a list of all categories.
-    * input: {"Mexican"}, {"Thai"}
-    * output: {"Mexican", "Thai"}
 
 ### The find method will return the category in the database.
     * input: {"Mexican"}

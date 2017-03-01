@@ -150,6 +150,43 @@ namespace RecipeBox
 
         }
 
+        public static Recipe Find(int id)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM recipes WHERE id = @RecipeId;", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@RecipeId", id.ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+            int foundRecipeId = 0;
+            string foundRecipeName = null;
+            string foundRecipeIngredient = null;
+            string foundRecipeInstruction = null;
+            int foundRecipeRating = 0;
+            while(rdr.Read())
+            {
+                foundRecipeId = rdr.GetInt32(0);
+                foundRecipeName = rdr.GetString(1);
+                foundRecipeIngredient = rdr.GetString(2);
+                foundRecipeInstruction = rdr.GetString(3);
+                foundRecipeRating = rdr.GetInt32(4);
+            }
+            Recipe foundRecipe = new Recipe(foundRecipeName, foundRecipeIngredient, foundRecipeInstruction, foundRecipeRating, foundRecipeId);
+
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if (conn != null)
+            {
+                conn.Close();
+            }
+
+            return foundRecipe;
+        }
+
         public static void DeleteAll()
         {
           SqlConnection conn = DB.Connection();

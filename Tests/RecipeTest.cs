@@ -67,6 +67,19 @@ namespace RecipeBox
             Assert.Equal(testId, result);
         }
 
+        [Fact]
+        public void Test_Find_FindRecipeInDatabase()
+        {
+            //Arrange
+            Recipe testRecipe = new Recipe("Mac and cheese", "cheese and noodles", "cook it", 5);
+            testRecipe.Save();
+
+            //Act
+            Recipe foundRecipe = Recipe.Find(testRecipe.GetId());
+
+            //Assert
+            Assert.Equal(testRecipe, foundRecipe);
+        }
 
         public void Dispose()
         {
