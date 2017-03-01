@@ -71,5 +71,19 @@ namespace RecipeBox
              Recipe.DeleteAll();
              Category.DeleteAll();
         }
+
+        [Fact]
+        public void Test_Find_FindCategoryInDatabase()
+        {
+            //Arrange
+            Category testCategory = new Category("Mexican");
+            testCategory.Save();
+
+            //Act
+            Category foundCategory = Category.Find(testCategory.GetId());
+
+            //Assert
+            Assert.Equal(testCategory,foundCategory);
+        }
     }
 }
