@@ -26,12 +26,27 @@ namespace RecipeBox
         [Fact]
         public void Test_Equal_ReturnsTrueForSameName()
         {
-          //Arrange, Act
-          Category firstCategory = new Category("Mexican");
-          Category secondCategory = new Category("Mexican");
+            //Arrange, Act
+            Category firstCategory = new Category("Mexican");
+            Category secondCategory = new Category("Mexican");
 
-          //Assert
-          Assert.Equal(firstCategory, secondCategory);
+            //Assert
+            Assert.Equal(firstCategory, secondCategory);
+        }
+
+        [Fact]
+        public void Test_Save_SavesCategoryToDatabase()
+        {
+            //Arrange
+            Category testCategory = new Category("Mexican");
+            testCategory.Save();
+
+            //Act
+            List<Category> result = Category.GetAll();
+            List<Category> testList = new List<Category>{testCategory};
+
+            //Assert
+            Assert.Equal(testList, result);
         }
 
         public void Dispose()

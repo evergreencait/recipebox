@@ -20,17 +20,17 @@ namespace RecipeBox
         {
             if (!(otherCategory is Category))
             {
-              return false;
+                return false;
             }
             else
             {
-              Category newCategory = (Category) otherCategory;
-              bool idEquality = this.GetId() == newCategory.GetId();
-              bool nameEquality = this.GetName() == newCategory.GetName();
-              return (idEquality && nameEquality);
+                Category newCategory = (Category) otherCategory;
+                bool idEquality = this.GetId() == newCategory.GetId();
+                bool nameEquality = this.GetName() == newCategory.GetName();
+                return (idEquality && nameEquality);
             }
         }
-        
+
         public override int GetHashCode()
         {
             return this.GetName().GetHashCode();
@@ -78,6 +78,31 @@ namespace RecipeBox
                 conn.Close();
             }
             return AllCategories;
+        }
+
+        public void Save()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO categories (name) OUTPUT INSERTED.id VALUES (@CategoryName);", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@CategoryName", this.GetName()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this._id = rdr.GetInt32(0);
+            }
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if(conn != null)
+            {
+                conn.Close();
+            }
         }
     }
 }
