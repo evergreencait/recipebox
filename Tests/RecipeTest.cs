@@ -103,6 +103,28 @@ namespace RecipeBox
       }
 
       [Fact]
+      public void Test_GetCategories_ReturnsAllRecipeCategories()
+      {
+        //Arrange
+        Recipe testRecipe = new Recipe("Mac and cheese", "cheese and noodles", "cook it", 5);
+        testRecipe.Save();
+
+        Category testCategory1 = new Category("Mexican");
+        testCategory1.Save();
+
+        Category testCategory2 = new Category("Thai");
+        testCategory2.Save();
+
+        //Act
+        testRecipe.AddCategory(testCategory1);
+        List<Category> result = testRecipe.GetCategories();
+        List<Category> testList = new List<Category> {testCategory1};
+  
+        //Assert
+        Assert.Equal(testList, result);
+      }
+
+      [Fact]
       public void UpdateRecipes_UpdateRecipesInDatabase_true()
       {
           //Arrange
