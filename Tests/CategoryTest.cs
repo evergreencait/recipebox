@@ -49,10 +49,27 @@ namespace RecipeBox
             Assert.Equal(testList, result);
         }
 
+        [Fact]
+        public void Test_Save_AssignsIdToCategoryObject()
+        {
+          //Arrange
+          Category testCategory = new Category("Mexican");
+          testCategory.Save();
+
+          //Act
+          Category savedCategory = Category.GetAll()[0];
+
+          int result = savedCategory.GetId();
+          int testId = testCategory.GetId();
+
+          //Assert
+          Assert.Equal(testId, result);
+        }
+
         public void Dispose()
         {
-            //  Recipe.DeleteAll();
-            //  Category.DeleteAll();
+             Recipe.DeleteAll();
+             Category.DeleteAll();
         }
     }
 }
