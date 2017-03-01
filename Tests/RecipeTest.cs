@@ -22,6 +22,17 @@ namespace RecipeBox
             //Assert
             Assert.Equal(0, result);
         }
+
+        [Fact]
+        public void Test_Equal_ReturnsTrueIfDescriptionsAreTheSame_true()
+        {
+            //Arrange, Act
+            Recipe firstRecipe = new Recipe("Mac and cheese", "cheese and noodles", "cook it", 5);
+            Recipe secondRecipe = new Recipe("Mac and cheese", "cheese and noodles", "cook it", 5);
+
+            //Assert
+            Assert.Equal(firstRecipe, secondRecipe);
+        }
         public void Dispose()
         {
         //   Recipe.DeleteAll();
