@@ -81,29 +81,30 @@ namespace RecipeBox
         }
 
         public void Save()
-        {
-            SqlConnection conn = DB.Connection();
-            conn.Open();
+          {
+              SqlConnection conn = DB.Connection();
+              conn.Open();
 
-            SqlCommand cmd = new SqlCommand("INSERT INTO categories (name) OUTPUT INSERTED.id VALUES (@CategoryName);", conn);
+              SqlCommand cmd = new SqlCommand("INSERT INTO categories (name) OUTPUT INSERTED.id VALUES (@CategoryName);", conn);
 
-            cmd.Parameters.Add(new SqlParameter("@CategoryName", this.GetName()));
+              SqlParameter nameParameter = new SqlParameter("@CategoryName", this.GetName());
 
-            SqlDataReader rdr = cmd.ExecuteReader();
+              cmd.Parameters.Add(nameParameter);
+              SqlDataReader rdr = cmd.ExecuteReader();
 
-            while(rdr.Read())
-            {
-                this._id = rdr.GetInt32(0);
-            }
-            if (rdr != null)
-            {
-                rdr.Close();
-            }
-            if(conn != null)
-            {
-                conn.Close();
-            }
-        }
+              while(rdr.Read())
+              {
+                  this._id = rdr.GetInt32(0);
+              }
+              if (rdr != null)
+              {
+                  rdr.Close();
+              }
+              if(conn != null)
+              {
+                  conn.Close();
+              }
+          }
 
         public static Category Find(int id)
         {
@@ -189,6 +190,32 @@ namespace RecipeBox
               conn.Close();
           }
           return recipes;
+        }
+
+        public void UpdateCategories(string newName)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE categories SET name = @NewName OUTPUT INSERTED.* WHERE id = @CategoryId;", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@NewName", newName));
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this._name = rdr.GetString(1);
+            }
+
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+
+            if (conn != null)
+            {
+                conn.Close();
+            }
         }
 
         public static void DeleteAll()

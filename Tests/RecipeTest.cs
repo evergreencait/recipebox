@@ -100,7 +100,32 @@ namespace RecipeBox
 
           //Assert
           Assert.Equal(testList, result);
-        }
+      }
+
+      [Fact]
+      public void UpdateRecipes_UpdateRecipesInDatabase_true()
+      {
+          //Arrange
+          string name = "Mac and Cheese";
+          string ingredient = "cheese and noodles";
+          string instruction = "cook it";
+          int rating = 5;
+
+          Recipe testRecipe = new Recipe(name, ingredient, instruction, rating);
+          testRecipe.Save();
+          string newName = "Fancy Mac and Cheese";
+          string newIngredient = ingredient;
+          string newInstruction = "really cook it";
+          int newRating = 4;
+
+          //Act
+          testRecipe.UpdateRecipes(newName, newIngredient, newInstruction, newRating);
+          Recipe result = Recipe.GetAll()[0];
+
+          //Assert
+          Assert.Equal(testRecipe, result);
+      }
+
 
         public void Dispose()
         {

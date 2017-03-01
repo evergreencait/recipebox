@@ -239,6 +239,49 @@ namespace RecipeBox
 
         }
 
+        public void UpdateRecipes(string newName, string newIngredient, string newInstruction, int newRating)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE recipes SET name = @NewName, ingredient = @NewIngredient, instruction = @NewInstruction, rating = @NewRating OUTPUT INSERTED.* WHERE id = @RecipeId;", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@NewName", newName));
+
+            cmd.Parameters.Add(new SqlParameter("@NewIngredient", newIngredient));
+
+            cmd.Parameters.Add(new SqlParameter("@NewInstruction", newInstruction));
+
+            cmd.Parameters.Add(new SqlParameter("@NewRating", newRating));
+
+            SqlParameter recipeIdParameter = new SqlParameter();
+            recipeIdParameter.ParameterName = "@RecipeId";
+            recipeIdParameter.Value = this.GetId();
+            cmd.Parameters.Add(recipeIdParameter);
+
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this._name = rdr.GetString(1);
+                this._ingredient = rdr.GetString(2);
+                this._instruction = rdr.GetString(3);
+                this._rating = rdr.GetInt32(4);
+            }
+
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
+
+
             public static void DeleteAll()
         {
           SqlConnection conn = DB.Connection();
