@@ -129,9 +129,9 @@ namespace RecipeBox
             SqlCommand cmd = new SqlCommand("INSERT INTO recipes (name, ingredient, instruction, rating) OUTPUT INSERTED.id VALUES (@RecipeName, @RecipeIngredient, @RecipeInstruction, @RecipeRating);", conn);
 
             cmd.Parameters.Add(new SqlParameter("@RecipeName", this.GetName()));
-           cmd.Parameters.Add(new SqlParameter("@RecipeIngredient", this.GetIngredient()));
-           cmd.Parameters.Add(new SqlParameter("@RecipeInstruction", this.GetInstruction()));
-           cmd.Parameters.Add(new SqlParameter("@RecipeRating", this.GetRating()));
+            cmd.Parameters.Add(new SqlParameter("@RecipeIngredient", this.GetIngredient()));
+            cmd.Parameters.Add(new SqlParameter("@RecipeInstruction", this.GetInstruction()));
+            cmd.Parameters.Add(new SqlParameter("@RecipeRating", this.GetRating()));
 
             SqlDataReader rdr = cmd.ExecuteReader();
 

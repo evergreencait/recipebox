@@ -130,7 +130,7 @@ namespace RecipeBox
         public void Dispose()
         {
           Recipe.DeleteAll();
-        //   Category.DeleteAll();
+        Category.DeleteAll();
         }
     }
 }
