@@ -23,6 +23,17 @@ namespace RecipeBox
             Assert.Equal(0, result);
         }
 
+        [Fact]
+        public void Test_Equal_ReturnsTrueForSameName()
+        {
+          //Arrange, Act
+          Category firstCategory = new Category("Mexican");
+          Category secondCategory = new Category("Mexican");
+
+          //Assert
+          Assert.Equal(firstCategory, secondCategory);
+        }
+
         public void Dispose()
         {
             //  Recipe.DeleteAll();
