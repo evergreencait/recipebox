@@ -66,24 +66,31 @@ namespace RecipeBox
           Assert.Equal(testId, result);
         }
 
+        [Fact]
+        public void Test_AddRecipe_AddsRecipeToCategory()
+        {
+          //Arrange
+          Recipe testRecipe = new Recipe("Mac and cheese", "cheese and noodles", "cook it", 5);
+          testRecipe.Save();
+
+          Category testCategory = new Category("Mexican");
+          testCategory.Save();
+
+          //Act
+          testCategory.AddRecipe(testRecipe);
+
+          List<Recipe> result = testCategory.GetRecipes();
+          List<Recipe> testList = new List<Recipe>{testRecipe};
+
+          //Assert
+          Assert.Equal(testList, result);
+        }
+
         public void Dispose()
         {
-             Recipe.DeleteAll();
-             Category.DeleteAll();
-        }
-
-        [Fact]
-        public void Test_Find_FindCategoryInDatabase()
-        {
-            //Arrange
-            Category testCategory = new Category("Mexican");
-            testCategory.Save();
-
-            //Act
-            Category foundCategory = Category.Find(testCategory.GetId());
-
-            //Assert
-            Assert.Equal(testCategory,foundCategory);
+            Recipe.DeleteAll();
+            Category.DeleteAll();
         }
     }
+
 }

@@ -81,6 +81,27 @@ namespace RecipeBox
             Assert.Equal(testRecipe, foundRecipe);
         }
 
+
+        [Fact]
+        public void Test_AddCategory_AddsCategoryToRecipe()
+        {
+          //Arrange
+          Recipe testRecipe = new Recipe("Mac and cheese", "cheese and noodles", "cook it", 5);
+          testRecipe.Save();
+
+          Category testCategory = new Category("Mexican");
+          testCategory.Save();
+
+          //Act
+          testRecipe.AddCategory(testCategory);
+
+          List<Category> result = testRecipe.GetCategories();
+          List<Category> testList = new List<Category>{testCategory};
+
+          //Assert
+          Assert.Equal(testList, result);
+        }
+
         public void Dispose()
         {
           Recipe.DeleteAll();

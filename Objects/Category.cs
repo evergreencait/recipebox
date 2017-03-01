@@ -137,6 +137,60 @@ namespace RecipeBox
             return foundCategory;
         }
 
+        public void AddRecipe(Recipe newRecipe)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO categories_recipes (recipe_id, category_id) VALUES (@RecipeId, @CategoryId);", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@CategoryId", this.GetId()));
+            cmd.Parameters.Add(new SqlParameter("@RecipeId", newRecipe.GetId()));
+
+            cmd.ExecuteNonQuery();
+
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
+
+        public List<Recipe> GetRecipes()
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+
+          SqlCommand cmd = new SqlCommand("SELECT recipes.* FROM categories JOIN categories_recipes ON (categories.id = categories_recipes.category_id) JOIN recipes ON (categories_recipes.recipe_id = recipes.id) WHERE categories.id = @CategoryId;", conn);
+
+          cmd.Parameters.Add(new SqlParameter("@CategoryId", this.GetId().ToString()));
+
+          SqlDataReader rdr = cmd.ExecuteReader();
+
+          List<Recipe> recipes = new List<Recipe>{};
+
+          while(rdr.Read())
+          {
+              int recipeId = rdr.GetInt32(0);
+              string recipeName = rdr.GetString(1);
+              string recipeIngredient = rdr.GetString(2);
+              string recipeInstruction = rdr.GetString(3);
+              int recipeRating = rdr.GetInt32(4);
+
+              Recipe newRecipe = new Recipe(recipeName, recipeIngredient, recipeInstruction, recipeRating, recipeId);
+              recipes.Add(newRecipe);
+          }
+
+          if (rdr != null)
+          {
+              rdr.Close();
+          }
+          if (conn != null)
+          {
+              conn.Close();
+          }
+          return recipes;
+        }
+
         public static void DeleteAll()
         {
           SqlConnection conn = DB.Connection();

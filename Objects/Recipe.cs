@@ -188,8 +188,58 @@ namespace RecipeBox
         }
 
 
+        public void AddCategory(Category newCategory)
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
 
-        public static void DeleteAll()
+          SqlCommand cmd = new SqlCommand("INSERT INTO categories_recipes (recipe_id, category_id) VALUES (@RecipeId, @CategoryId);", conn);
+          cmd.Parameters.Add(new SqlParameter("@RecipeId", this.GetId()));
+          cmd.Parameters.Add(new SqlParameter("@CategoryId", newCategory.GetId()));
+
+          cmd.ExecuteNonQuery();
+
+          if (conn != null)
+          {
+            conn.Close();
+          }
+        }
+
+        public List<Category> GetCategories()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT categories.* FROM recipes JOIN categories_recipes ON (recipes.id = categories_recipes.recipe_id) JOIN categories ON (categories_recipes.category_id = categories.id) WHERE recipes.id = @RecipeId;", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@RecipeId", this.GetId().ToString()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            List<Category> categories = new List<Category>{};
+
+            while(rdr.Read())
+            {
+                int categoryId = rdr.GetInt32(0);
+                string categoryName = rdr.GetString(1);
+                Category newCategory = new Category(categoryName, categoryId);
+                categories.Add(newCategory);
+
+            }
+
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if (conn != null)
+            {
+                conn.Close();
+            }
+            return categories;
+
+        }
+
+            public static void DeleteAll()
         {
           SqlConnection conn = DB.Connection();
           conn.Open();
