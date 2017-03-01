@@ -49,6 +49,25 @@ namespace RecipeBox
             Assert.Equal(testList, result);
         }
 
+        [Fact]
+        public void Test_Save_AssignsIdToObject()
+        {
+            //Arrange
+            Recipe testRecipe = new Recipe("Mac and cheese", "cheese and noodles", "cook it", 5);
+
+            //Act
+            testRecipe.Save();
+            Recipe savedRecipe = Recipe.GetAll()[0];
+
+
+            int result = savedRecipe.GetId();
+            int testId = testRecipe.GetId();
+
+            //Assert
+            Assert.Equal(testId, result);
+        }
+
+
         public void Dispose()
         {
           Recipe.DeleteAll();
