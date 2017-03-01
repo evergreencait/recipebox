@@ -23,20 +23,20 @@ namespace RecipeBox
 
         public override bool Equals(System.Object otherRecipe)
         {
-          if (!(otherRecipe is Recipe))
-          {
-            return false;
-          }
-          else
-          {
-            Recipe newRecipe = (Recipe) otherRecipe;
-            bool idEquality = (this.GetId() == newRecipe.GetId());
-            bool nameEquality = (this.GetName() == newRecipe.GetName());
-            bool ingredientEquality = (this.GetIngredient() == newRecipe.GetIngredient());
-            bool instructionEquality = (this.GetInstruction() == newRecipe.GetInstruction());
-            bool ratingEquality = (this.GetRating() == newRecipe.GetRating());
-            return (idEquality && nameEquality && ingredientEquality && instructionEquality && ratingEquality);
-          }
+            if (!(otherRecipe is Recipe))
+            {
+                return false;
+            }
+            else
+            {
+                Recipe newRecipe = (Recipe) otherRecipe;
+                bool idEquality = (this.GetId() == newRecipe.GetId());
+                bool nameEquality = (this.GetName() == newRecipe.GetName());
+                bool ingredientEquality = (this.GetIngredient() == newRecipe.GetIngredient());
+                bool instructionEquality = (this.GetInstruction() == newRecipe.GetInstruction());
+                bool ratingEquality = (this.GetRating() == newRecipe.GetRating());
+                return (idEquality && nameEquality && ingredientEquality && instructionEquality && ratingEquality);
+            }
         }
 
         public override int GetHashCode()
@@ -119,6 +119,44 @@ namespace RecipeBox
                 conn.Close();
             }
             return AllRecipes;
+        }
+
+        public void Save()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO recipes (name, ingredient, instruction, rating) OUTPUT INSERTED.id VALUES (@RecipeName, @RecipeIngredient, @RecipeInstruction, @RecipeRating);", conn);
+
+            cmd.Parameters.Add(new SqlParameter("@RecipeName", this.GetName()));
+           cmd.Parameters.Add(new SqlParameter("@RecipeIngredient", this.GetIngredient()));
+           cmd.Parameters.Add(new SqlParameter("@RecipeInstruction", this.GetInstruction()));
+           cmd.Parameters.Add(new SqlParameter("@RecipeRating", this.GetRating()));
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while(rdr.Read())
+            {
+                this._id = rdr.GetInt32(0);
+            }
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if (conn != null)
+            {
+                conn.Close();
+            }
+
+        }
+
+        public static void DeleteAll()
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+          SqlCommand cmd = new SqlCommand("DELETE FROM recipes;", conn);
+          cmd.ExecuteNonQuery();
+          conn.Close();
         }
     }
 }

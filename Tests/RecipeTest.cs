@@ -33,9 +33,25 @@ namespace RecipeBox
             //Assert
             Assert.Equal(firstRecipe, secondRecipe);
         }
+
+        [Fact]
+        public void Test_Save_SavesToDatabase()
+        {
+            //Arrange
+            Recipe testRecipe = new Recipe("Mac and cheese", "cheese and noodles", "cook it", 5);
+
+            //Act
+            testRecipe.Save();
+            List<Recipe> result = Recipe.GetAll();
+            List<Recipe> testList = new List<Recipe>{testRecipe};
+
+            //Assert
+            Assert.Equal(testList, result);
+        }
+
         public void Dispose()
         {
-        //   Recipe.DeleteAll();
+          Recipe.DeleteAll();
         //   Category.DeleteAll();
         }
     }
