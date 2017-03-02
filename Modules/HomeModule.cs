@@ -88,9 +88,8 @@ namespace RecipeBox
 
             Get["/recipes/detail/{id}"] = parameters =>
             {
-                Category category = Category.Find(parameters.id);
                 Recipe recipe = Recipe.Find(parameters.id);
-                return View["recipe-detail.cshtml", category.GetRecipes()];
+                return View["recipe-detail.cshtml", recipe];
             };
 
             Delete["/categories/{id}"] = parameters =>
