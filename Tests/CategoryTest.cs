@@ -109,21 +109,24 @@ namespace RecipeBox
         }
 
         [Fact]
-        public void UpdateCategories_UpdateCategoriesInDatabase_true()
+        public void Test_Delete_DeletesCategoryAssociationsFromDatabase()
         {
-            //Arrange
-            string name = "Mexican";
+          //Arrange
+          Recipe testRecipe = new Recipe("Mac and cheese", "cheese and noodles", "cook it", 5);
+          testRecipe.Save();
 
-            Category testCategory = new Category(name);
-            testCategory.Save();
-            string newName = "Thai";
+          Category testCategory = new Category("Mexican");
+          testCategory.Save();
 
-            //Act
-            testCategory.UpdateCategories(newName);
-            Category result = Category.GetAll()[0];
+          //Act
+          testCategory.AddRecipe(testRecipe);
+          testCategory.Delete();
 
-            //Assert
-            Assert.Equal(testCategory, result);
+          List<Category> resultRecipesCategories = testRecipe.GetCategories();
+          List<Category> testRecipesCategories = new List<Category> {};
+
+          //Assert
+          Assert.Equal(testRecipesCategories, resultRecipesCategories);
         }
 
         public void Dispose()

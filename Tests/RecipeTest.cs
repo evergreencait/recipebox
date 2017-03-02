@@ -6,9 +6,9 @@ using System.Data.SqlClient;
 
 namespace RecipeBox
 {
-    public class RecipeBoxTest : IDisposable
+    public class RecipeTest : IDisposable
     {
-        public RecipeBoxTest()
+        public RecipeTest()
         {
             DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=recipe_box_test;Integrated Security=SSPI;";
         }
@@ -119,34 +119,32 @@ namespace RecipeBox
         testRecipe.AddCategory(testCategory1);
         List<Category> result = testRecipe.GetCategories();
         List<Category> testList = new List<Category> {testCategory1};
-  
+
         //Assert
         Assert.Equal(testList, result);
       }
 
       [Fact]
-      public void UpdateRecipes_UpdateRecipesInDatabase_true()
+      public void Test_Delete_DeletesRecipeAssociationsFromDatabase()
       {
-          //Arrange
-          string name = "Mac and Cheese";
-          string ingredient = "cheese and noodles";
-          string instruction = "cook it";
-          int rating = 5;
+        //Arrange
+        Category testCategory = new Category("Mexican");
+        testCategory.Save();
 
-          Recipe testRecipe = new Recipe(name, ingredient, instruction, rating);
-          testRecipe.Save();
-          string newName = "Fancy Mac and Cheese";
-          string newIngredient = ingredient;
-          string newInstruction = "really cook it";
-          int newRating = 4;
+        Recipe testRecipe = new Recipe("Mac and cheese", "cheese and noodles", "cook it", 5);
+        testRecipe.Save();
 
-          //Act
-          testRecipe.UpdateRecipes(newName, newIngredient, newInstruction, newRating);
-          Recipe result = Recipe.GetAll()[0];
+        //Act
+        testRecipe.AddCategory(testCategory);
+        testRecipe.Delete();
 
-          //Assert
-          Assert.Equal(testRecipe, result);
+        List<Recipe> resultCategoriesRecipes = testCategory.GetRecipes();
+        List<Recipe> testCategoriesRecipes = new List<Recipe> {};
+
+        //Assert
+        Assert.Equal(testCategoriesRecipes, resultCategoriesRecipes);
       }
+
 
 
         public void Dispose()
