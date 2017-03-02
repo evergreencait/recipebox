@@ -62,6 +62,19 @@ namespace RecipeBox
                 return View["category.cshtml", model];
             };
 
+            Post["/recipe/add_category"] = _ => {
+                Category category = Category.Find(Request.Form["category-id"]);
+                Recipe recipe = Recipe.Find(Request.Form["recipe-id"]);
+                recipe.AddCategory(category);
+                return View["category-detail.cshtml", recipe.GetCategories()];
+            };
+            Post["/category/add_recipe"] = _ => {
+                Category category = Category.Find(Request.Form["category-id"]);
+                Recipe recipe = Recipe.Find(Request.Form["recipe-id"]);
+                category.AddRecipe(recipe);
+                return View["recipe-detail.cshtml", category.GetRecipes()];
+            };
+
             Post["/categories/delete"] = _ => {
                 Category.DeleteAll();
                 Recipe.DeleteAll();
