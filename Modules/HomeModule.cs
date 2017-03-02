@@ -75,25 +75,25 @@ namespace RecipeBox
                 return View["recipe-detail.cshtml", category.GetRecipes()];
             };
 
-            //     Get["category/edit/{id}"] = parameters => {
-            //        Category SelectedCategory = Category.Find(parameters.id);
-            //        return View["edit_category.cshtml", SelectedCategory];
-            //    };
-            //
-            //    Patch["cuisine/edit/{id}"] = parameters => {
-            //        Category SelectedCategory = Category.Find(parameters.id);
-            //        SelectedCategory.UpdateName(Request.Form["category-name"]);
-            //        return View["categories.cshtml", Category.GetAll()];
-            //    };
+            Patch["/category/edit/{id}"] = parameters => {
+                Category SelectedCategory = Category.Find(parameters.id);
+                SelectedCategory.UpdateCategories(Request.Form["new-category-name"]);
+                return View["categories.cshtml", Category.GetAll()];
+            };
 
-            Delete["categories/{id}"] = parameters =>
+            Patch["/recipe/edit/{id}"] = parameters => {
+                Recipe SelectedRecipe = Recipe.Find(parameters.id);
+                SelectedRecipe.UpdateRecipes(Request.Form["new-recipe-name"], Request.Form["new-recipe-ingredient"], Request.Form["new-recipe-instruction"], Request.Form["new-recipe-rating"], Request.Form["new-category-id"]);
+                return View["recipes.cshtml", Recipe.GetAll()];
+            };
+
+            Delete["/categories/{id}"] = parameters =>
             {
                 Category targetCategory = Category.Find(parameters.id);
                 targetCategory.Delete();
                 return View["categories.cshtml", Category.GetAll()];
             };
-
-            Delete["recipes/{id}"] = parameters =>
+            Delete["/recipes/{id}"] = parameters =>
             {
                 Recipe targetRecipe = Recipe.Find(parameters.id);
                 targetRecipe.Delete();
