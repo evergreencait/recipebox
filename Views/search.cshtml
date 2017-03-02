@@ -10,7 +10,7 @@
 <ul>
     @foreach (var recipe in Model)
     {
-        <a href="/recipes/@recipe.GetId()"><li>@recipe.GetName()</li></a>
+        <li><a href="/recipes/detail/@recipe.GetId()">@recipe.GetName()</a></li>
     }
 </ul>
 <p><a href="/">Return home</a></p>
