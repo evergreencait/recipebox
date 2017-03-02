@@ -11,6 +11,17 @@
     @foreach (var category in @Model["recipeCategories"])
     {
       <li>@category.GetName()</li>
+      <form action="/recipes/@recipe.GetId()" method="post">
+          <input type="hidden" name="_method" value="DELETE">
+          <button type="submit" class="btn">Delete</button>
+      </form>
+      <button type="button" name="edit-button" class="btn edit-button">Edit</button>
+      <form class="appears" action="/recipes/edit/@recipe.GetId()" method="post">
+            <input type="hidden" name="_method" value="PATCH">
+            <label for="new-category-name">New Name: </label>
+            <input type="text" name="new-category-name" value="@category.GetName()">
+            <button type="submit" class="btn">Update</button>
+      </form>
     }
   </ul>
 }

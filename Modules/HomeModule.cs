@@ -36,7 +36,7 @@ namespace RecipeBox
                 return View["recipes_form.cshtml", AllCategories];
             };
             Post["/recipes/new"] = _ => {
-                Recipe newRecipe = new Recipe(Request.Form["recipe-name"], Request.Form["recipe-ingredient"], Request.Form["recipe-instruction"], Request.Form["recipe-rating"], Request.Form["category-id"]);
+                Recipe newRecipe = new Recipe(Request.Form["recipe-name"], Request.Form["recipe-ingredient"], Request.Form["recipe-instruction"], Request.Form["recipe-rating"]);
                 newRecipe.Save();
                 return View["recipes.cshtml", Recipe.GetAll()];
             };
@@ -83,7 +83,7 @@ namespace RecipeBox
 
             Patch["/recipe/edit/{id}"] = parameters => {
                 Recipe SelectedRecipe = Recipe.Find(parameters.id);
-                SelectedRecipe.UpdateRecipes(Request.Form["new-recipe-name"], Request.Form["new-recipe-ingredient"], Request.Form["new-recipe-instruction"], Request.Form["new-recipe-rating"], Request.Form["new-category-id"]);
+                SelectedRecipe.UpdateRecipes(Request.Form["new-recipe-name"], Request.Form["new-recipe-ingredient"], Request.Form["new-recipe-instruction"], Request.Form["new-recipe-rating"]);
                 return View["recipes.cshtml", Recipe.GetAll()];
             };
 

@@ -16,12 +16,6 @@
   <label for="recipe-rating">Recipe rating:</label>
   <input id="recipe-rating" name="recipe-rating" type="number">
 
-  <select name="category-id">
-    @foreach (var category in Model)
-    {
-      <option value="@category.GetId()">@category.GetName()</option>
-    }
-  </select>
   <button type="submit">Add New</button>
 </form>
 <h4><a href="/">Return Home</a></h4>
