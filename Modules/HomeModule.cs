@@ -17,6 +17,11 @@ namespace RecipeBox
               List<Recipe> AllRecipes = Recipe.GetAll();
               return View["recipes.cshtml", AllRecipes];
             };
+
+            Get["/categories"] = _ => {
+              List<Category> AllCategories = Category.GetAll();
+              return View["categories.cshtml", AllCategories];
+            };
         }
     }
 }
