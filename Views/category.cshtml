@@ -1,0 +1,29 @@
+@{
+  Layout="Shared/_Layout.cshtml";
+}
+
+<h2>Category: @Model["category"].GetName()</h2>
+<hr />
+@if (@Model["categoryRecipes"].Count != 0)
+{
+  <h4>This category has these recipes:</h4>
+  <ul>
+    @foreach (var recipe in @Model["categoryRecipes"])
+    {
+      <li>@recipe.GetName()</li>
+    }
+  </ul>
+}
+<h4>Add a recipe to this category:</h4>
+<form action='/category/add_recipe' method='post'>
+  <input id='category-id' name='category-id' type='hidden' value='@Model["category"].GetId()'>
+  <label for='recipe-id'>Select a recipe</label>
+  <select id='recipe-id' name='recipe-id' type='text'>
+    @foreach (var recipe in @Model["allRecipes"])
+    {
+      <option value='@recipe.GetId()'>@recipe.GetName()</option>
+    }
+  </select>
+  <button type='submit'>Add</button>
+</form>
+<p><a href="/">Return to Main Page</a></p>

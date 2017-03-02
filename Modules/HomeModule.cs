@@ -42,15 +42,25 @@ namespace RecipeBox
             };
 
             Get["recipes/{id}"] = parameters => {
-              Dictionary<string, object> model = new Dictionary<string, object>();
-              Recipe SelectedRecipe = Recipe.Find(parameters.id);
-              List<Category> RecipeCategories = SelectedRecipe.GetCategories();
-              List<Category> AllCategories = Category.GetAll();
-              model.Add("recipe", SelectedRecipe);
-              model.Add("recipeCategories", RecipeCategories);
-              model.Add("allCategories", AllCategories);
-              return View["recipe.cshtml", model];
-          };
+                Dictionary<string, object> model = new Dictionary<string, object>();
+                Recipe SelectedRecipe = Recipe.Find(parameters.id);
+                List<Category> RecipeCategories = SelectedRecipe.GetCategories();
+                List<Category> AllCategories = Category.GetAll();
+                model.Add("recipe", SelectedRecipe);
+                model.Add("recipeCategories", RecipeCategories);
+                model.Add("allCategories", AllCategories);
+                return View["recipe.cshtml", model];
+            };
+            Get["/categories/{id}"] = parameters => {
+                Dictionary<string, object> model = new Dictionary<string, object>();
+                var SelectedCategory = Category.Find(parameters.id);
+                var CategoryRecipes = SelectedCategory.GetRecipes();
+                List<Recipe> AllRecipes = Recipe.GetAll();
+                model.Add("category", SelectedCategory);
+                model.Add("categoryRecipes", CategoryRecipes);
+                model.Add("allRecipes", AllRecipes);
+                return View["category.cshtml", model];
+            };
 
             Post["/categories/delete"] = _ => {
                 Category.DeleteAll();
