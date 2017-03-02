@@ -13,33 +13,27 @@ else
   <ul>
     @foreach (var recipe in Model)
     {
-        <li><a href = '/recipes/@recipe.GetId()'>@recipe.GetName()</a></li>
+        <li><a href="/recipes/detail/@recipe.GetId()">@recipe.GetName()</a></li>
         <form action="/recipes/@recipe.GetId()" method="post">
             <input type="hidden" name="_method" value="DELETE">
             <button type="submit" class="btn">Delete</button>
         </form>
-        /*<button type="button" name="edit-button" class="btn edit-button">Edit</button>
+        <button type="button" name="edit-button" class="btn edit-button">Edit</button>
         <form class="appears" action="/recipe/edit/@recipe.GetId()" method="post">
-          <label for="new-recipe-name">Recipe name:</label>
-          <input id="new-recipe-name" name="new-recipe-name" type="text">
+              <input type="hidden" name="_method" value="PATCH">
+              <label for="new-recipe-name">New Recipe name: </label>
+              <input type="text" name="new-recipe-name" value="@recipe.GetName()">
 
-          <label for="new-recipe-ingredient">Recipe ingredients:</label>
-          <input id="new-recipe-ingredient" name="new-recipe-ingredient" type="text">
+              <label for="new-recipe-ingredient">New Recipe ingredients: </label>
+              <input type="text" name="new-recipe-ingredient" value="@recipe.GetIngredient()">
 
-          <label for="new-recipe-instruction">Recipe instruction:</label>
-          <input id="new-recipe-instruction" name="new-recipe-instruction" type="text">
+              <label for="new-recipe-instruction">New Recipe instruction: </label>
+              <input type="text" name="new-recipe-instruction" value="@recipe.GetInstruction()">
 
-          <label for="new-recipe-rating">Recipe rating:</label>
-          <input id="new-recipe-rating" name="new-recipe-rating" type="number">
-
-          <select name="new-category-id">
-            @foreach (var category in Model)
-            {
-              <option value="@category.GetId()">@category.GetName()</option>
-            }
-          </select>
-          <button type="submit">Add New</button>
-        </form>*/
+              <label for="new-recipe-rating">New Recipe rating: </label>
+              <input type="text" name="new-recipe-rating" value="@recipe.GetRating()">
+              <button type="submit" class="btn">Update</button>
+        </form>
     }
   </ul>
 }

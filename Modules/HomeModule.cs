@@ -66,13 +66,13 @@ namespace RecipeBox
                 Category category = Category.Find(Request.Form["category-id"]);
                 Recipe recipe = Recipe.Find(Request.Form["recipe-id"]);
                 recipe.AddCategory(category);
-                return View["category-detail.cshtml", recipe.GetCategories()];
+                return View["category-list.cshtml", recipe.GetCategories()];
             };
             Post["/category/add_recipe"] = _ => {
                 Category category = Category.Find(Request.Form["category-id"]);
                 Recipe recipe = Recipe.Find(Request.Form["recipe-id"]);
                 category.AddRecipe(recipe);
-                return View["recipe-detail.cshtml", category.GetRecipes()];
+                return View["recipe-list.cshtml", category.GetRecipes()];
             };
 
             Patch["/category/edit/{id}"] = parameters => {
@@ -80,11 +80,17 @@ namespace RecipeBox
                 SelectedCategory.UpdateCategories(Request.Form["new-category-name"]);
                 return View["categories.cshtml", Category.GetAll()];
             };
-
             Patch["/recipe/edit/{id}"] = parameters => {
                 Recipe SelectedRecipe = Recipe.Find(parameters.id);
                 SelectedRecipe.UpdateRecipes(Request.Form["new-recipe-name"], Request.Form["new-recipe-ingredient"], Request.Form["new-recipe-instruction"], Request.Form["new-recipe-rating"]);
                 return View["recipes.cshtml", Recipe.GetAll()];
+            };
+
+            Get["/recipes/detail/{id}"] = parameters =>
+            {
+                Category category = Category.Find(parameters.id);
+                Recipe recipe = Recipe.Find(parameters.id);
+                return View["recipe-detail.cshtml", category.GetRecipes()];
             };
 
             Delete["/categories/{id}"] = parameters =>
