@@ -41,6 +41,17 @@ namespace RecipeBox
                 return View["recipes.cshtml", Recipe.GetAll()];
             };
 
+            Get["recipes/{id}"] = parameters => {
+              Dictionary<string, object> model = new Dictionary<string, object>();
+              Recipe SelectedRecipe = Recipe.Find(parameters.id);
+              List<Category> RecipeCategories = SelectedRecipe.GetCategories();
+              List<Category> AllCategories = Category.GetAll();
+              model.Add("recipe", SelectedRecipe);
+              model.Add("recipeCategories", RecipeCategories);
+              model.Add("allCategories", AllCategories);
+              return View["recipe.cshtml", model];
+          };
+
             Post["/categories/delete"] = _ => {
                 Category.DeleteAll();
                 Recipe.DeleteAll();
