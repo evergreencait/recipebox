@@ -281,6 +281,45 @@ namespace RecipeBox
             }
         }
 
+        public static Recipe FindByIngredient(string ingredient)
+       {
+           SqlConnection conn = DB.Connection();
+           conn.Open();
+
+           SqlCommand cmd = new SqlCommand("SELECT * FROM recipes WHERE ingredient = @RecipeIngredient;", conn);
+           SqlParameter recipeIngredientParameter = new SqlParameter();
+           recipeIngredientParameter.ParameterName = "@RecipeIngredient";
+           recipeIngredientParameter.Value = ingredient;
+           cmd.Parameters.Add(recipeIngredientParameter);
+           SqlDataReader rdr = cmd.ExecuteReader();
+
+           int foundRecipeId = 0;
+           string foundRecipeName = null;
+           string foundRecipeIngredient = null;
+           string foundRecipeInstruction = null;
+           int foundRecipeRating = 0;
+
+           while(rdr.Read())
+           {
+               foundRecipeId = rdr.GetInt32(0);
+               foundRecipeName = rdr.GetString(1);
+               foundRecipeIngredient = rdr.GetString(2);
+               foundRecipeInstruction = rdr.GetString(3);
+               foundRecipeRating = rdr.GetInt32(4);
+           }
+           Recipe foundRecipe = new Recipe(foundRecipeName, foundRecipeIngredient, foundRecipeInstruction, foundRecipeRating, foundRecipeId);
+
+           if (rdr != null)
+           {
+               rdr.Close();
+           }
+           if (conn != null)
+           {
+               conn.Close();
+           }
+           return foundRecipe;
+       }
+
         public void Delete()
         {
           SqlConnection conn = DB.Connection();

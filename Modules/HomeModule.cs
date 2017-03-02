@@ -105,6 +105,13 @@ namespace RecipeBox
                 return View["recipes.cshtml", Recipe.GetAll()];
             };
 
+            Post["/recipe/search/results"] = _ => {
+               List<Recipe> FoundList = new List<Recipe>{};
+               Recipe foundRecipe = Recipe.FindByIngredient(Request.Form["recipe-search"]);
+               FoundList.Add(foundRecipe);
+               return View["search.cshtml", FoundList];
+           };
+
             Post["/categories/delete"] = _ => {
                 Category.DeleteAll();
                 Recipe.DeleteAll();
