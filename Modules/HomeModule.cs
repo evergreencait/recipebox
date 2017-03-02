@@ -12,3 +12,6 @@ namespace RecipeBox
                 List<Category> AllCategories = Category.GetAll();
                 return View["index.cshtml", AllCategories];
             };
+        }
+    }
+}
