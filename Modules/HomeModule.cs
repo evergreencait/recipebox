@@ -90,10 +90,14 @@ namespace RecipeBox
             {
                 Category targetCategory = Category.Find(parameters.id);
                 targetCategory.Delete();
-                Dictionary<string, object> passedModel = new Dictionary<string, object>() {};
-                passedModel["categories"] = Category.GetAll();
-                passedModel["recipes"] = Recipe.GetAll();
-                return View["index.cshtml", passedModel];
+                return View["categories.cshtml", Category.GetAll()];
+            };
+
+            Delete["recipes/{id}"] = parameters =>
+            {
+                Recipe targetRecipe = Recipe.Find(parameters.id);
+                targetRecipe.Delete();
+                return View["recipes.cshtml", Recipe.GetAll()];
             };
 
             Post["/categories/delete"] = _ => {
