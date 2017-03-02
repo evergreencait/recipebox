@@ -1,0 +1,13 @@
+@{
+    Layout="Shared/_Layout.cshtml";
+}
+
+<h1 class="category-name">Update information for @Model.GetName()</h1>
+<form action="/categories" method="post">
+    <input type="hidden" name="_method" value="PATCH">
+    <label for="category-name">Enter the new name here:</label>
+    <input id="category-name" name="category-name" type="text">
+    <button type="submit">Update this category</button>
+</form>
+
+    <p><a href="/" class="links">Go back home</a></p>

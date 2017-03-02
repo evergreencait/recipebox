@@ -75,6 +75,27 @@ namespace RecipeBox
                 return View["recipe-detail.cshtml", category.GetRecipes()];
             };
 
+            //     Get["category/edit/{id}"] = parameters => {
+            //        Category SelectedCategory = Category.Find(parameters.id);
+            //        return View["edit_category.cshtml", SelectedCategory];
+            //    };
+            //
+            //    Patch["cuisine/edit/{id}"] = parameters => {
+            //        Category SelectedCategory = Category.Find(parameters.id);
+            //        SelectedCategory.UpdateName(Request.Form["category-name"]);
+            //        return View["categories.cshtml", Category.GetAll()];
+            //    };
+
+            Delete["categories/{id}"] = parameters =>
+            {
+                Category targetCategory = Category.Find(parameters.id);
+                targetCategory.Delete();
+                Dictionary<string, object> passedModel = new Dictionary<string, object>() {};
+                passedModel["categories"] = Category.GetAll();
+                passedModel["recipes"] = Recipe.GetAll();
+                return View["index.cshtml", passedModel];
+            };
+
             Post["/categories/delete"] = _ => {
                 Category.DeleteAll();
                 Recipe.DeleteAll();
